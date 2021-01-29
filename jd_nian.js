@@ -2,21 +2,24 @@
 京东炸年兽🧨
 活动时间:2021-1-18至2021-2-11
 暂不加入品牌会员
-活动入口:https://wbbny.m.jd.com/babelDiy/Zeus/2cKMj86srRdhgWcKonfExzK4ZMBy/index.html
-活动地址：京东app左侧浮动窗口
+地址 https://wbbny.m.jd.com/babelDiy/Zeus/2cKMj86srRdhgWcKonfExzK4ZMBy/index.html
+活动入口：京东app首页浮动窗口
 已支持IOS双京东账号,Node.js支持N个京东账号
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 ============Quantumultx===============
 [task_local]
 #京东炸年兽🧨
-0 9,12,20 * * * https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_nian.js, tag=京东炸年兽🧨, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/lxk0301/jd_nian.png, enabled=true
+0 9,12,20,21 * * * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_nian.js, tag=京东炸年兽🧨, img-url=https://raw.githubusercontent.com/yogayyy/Scripts/main/Icon/lxk0301/jd_nian.png, enabled=true
+
 ================Loon==============
 [Script]
-cron "0 9,12,20 * * *" script-path=https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_nian.js,tag=京东炸年兽🧨
+cron "0 9,12,20,21 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_nian.js,tag=京东炸年兽🧨
+
 ===============Surge=================
-京东炸年兽🧨 = type=cron,cronexp="0 9,12,20 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_nian.js
+京东炸年兽🧨 = type=cron,cronexp="0 9,12,20,21 * * *",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_nian.js
+
 ============小火箭=========
-京东炸年兽🧨 = type=cron,script-path=https://raw.githubusercontent.com/LXK9301/jd_scripts/master/jd_nian.js, cronexpr="0 9,12,20 * * *", timeout=3600, enable=true
+京东炸年兽🧨 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_nian.js, cronexpr="0 9,12,20,21 * * *", timeout=3600, enable=true
  */
 const $ = new Env('京东炸年兽🧨');
 
@@ -47,8 +50,8 @@ const inviteCodes = [
   `cgxZK2iLIL3d6g7NZ1jlo2L_WEfTuQOAFo_FWI8L2Ik`
 ];
 const pkInviteCodes = [
-  'IgNWdiLGaPbe4wfNDwKp7wA5j8PTR3WirsssxA5iIRIv0DkR0iA',
-  'IgNWdiLGaPbe4wfNDwKp7wA5j8PTR3WirsssxA5iIRIv0DkR0iA'
+  'IgNWdiLGaPbe4wfNDwKp7wA5j8PTR3WirsssxA5iIRIv0DkR0iE',
+  'IgNWdiLGaPbe4wfNDwKp7wA5j8PTR3WirsssxA5iIRIv0DkR0iE',
 ]
 !(async () => {
   await requireConfig();
@@ -104,6 +107,7 @@ async function jdNian() {
       $.hasGroup = false
       await pkTaskStealDetail()
       if ($.hasGroup) await pkInfo()
+      await helpFriendsPK()
     }
     await $.wait(2000)
     await killCouponList()
@@ -1057,7 +1061,7 @@ function readShareCode() {
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
           if (data) {
-            console.log(`随机取${randomCount}个码放到您固定的互助码后面(不影响已有固定互助)`)
+            console.log(`取码放到您固定的互助码后面(不影响已有固定互助)`)
             data = JSON.parse(data);
           }
         }
@@ -1085,7 +1089,7 @@ function readShareCodePk() {
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
           if (data) {
-            console.log(`随机取${randomCount}个PK助力码放到您固定的互助码后面(不影响已有固定互助)`)
+            console.log(`取PK助力码放到您固定的互助码后面(不影响已有固定互助)`)
             data = JSON.parse(data);
           }
         }
@@ -1132,7 +1136,9 @@ function shareCodesFormatPk() {
       const tempIndex = $.index > pkInviteCodes.length ? (pkInviteCodes.length - 1) : ($.index - 1);
       $.newShareCodesPk = pkInviteCodes[tempIndex].split('@');
     }
-    const readShareCodeRes = null //await readShareCodePk();
+    let readShareCodeRes = null
+    if (new Date().getUTCHours() >= 12)
+      readShareCodeRes = await readShareCodePk();
     if (readShareCodeRes && readShareCodeRes.code === 200) {
       $.newShareCodesPk = [...new Set([...$.newShareCodesPk, ...(readShareCodeRes.data || [])])];
     }
