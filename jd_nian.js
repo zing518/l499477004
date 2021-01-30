@@ -51,7 +51,7 @@ const inviteCodes = [
 ];
 const pkInviteCodes = [
   'IgNWdiLGaPbe4wfNDwKp7wA5j8PTR3WirsssxA5iIRIv0DkR0yg',
-  'IgNWdiLGaPbe4wfNDwKp7wA5j8PTR3WirsssxA5iIRIv0DkR0yg',
+  'IgNWdiLGaPbe4wfNDwKp7wA5j8PTR3WirsssxA5iIRIv0DkR0yg'
 ]
 !(async () => {
   await requireConfig();
@@ -789,7 +789,7 @@ function pkInfo() {
           if (safeGet(data)) {
             data = JSON.parse(data);
             if (data.code === 0 && data.data && data.data.bizCode === 0) {
-              console.log(`\n您的好友PK助力码为${data.data.result.groupInfo.groupAssistInviteId}\n`)
+              console.log(`\n您的好友PK助力码为${data.data.result.groupInfo.groupAssistInviteId}\n注：此pk邀请码每天都变！`)
               let info = data.data.result.groupPkInfo
               if (info.dayAward)
                 console.log(`白天关卡：${info.dayAward}元红包，完成进度 ${info.dayTotalValue}/${info.dayTargetSell}`)
@@ -1061,7 +1061,7 @@ function readShareCode() {
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
           if (data) {
-            console.log(`取码放到您固定的互助码后面(不影响已有固定互助)`)
+            console.log(`随机取${randomCount}个码放到您固定的互助码后面(不影响已有固定互助)`)
             data = JSON.parse(data);
           }
         }
@@ -1089,7 +1089,7 @@ function readShareCodePk() {
           console.log(`${$.name} API请求失败，请检查网路重试`)
         } else {
           if (data) {
-            console.log(`取PK助力码放到您固定的互助码后面(不影响已有固定互助)`)
+            console.log(`随机取${randomCount}个PK助力码放到您固定的互助码后面(不影响已有固定互助)`)
             data = JSON.parse(data);
           }
         }
